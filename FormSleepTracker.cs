@@ -39,10 +39,10 @@ namespace SleepWise
             TimeSpan selisih = waktuBangun - waktuTidur;
             durasi_menit = (int)selisih.TotalMinutes;
 
-            jamTidurStr = waktuTidur.ToString("HH:mm");
-            jamBangunStr = waktuBangun.ToString("HH:mm");
+            jamTidurStr = dtpTidur.Value.ToString("HH:mm:ss");
+            jamBangunStr = dtpBangun.Value.ToString("HH:mm:ss");
 
-            
+
             tanggalTidur = dtpTanggal.Value.Date;
         }
 
@@ -59,13 +59,15 @@ namespace SleepWise
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@id", UserSession.UserId);
-                    cmd.Parameters.AddWithValue("@tgl", tanggalTidur);
+                    cmd.Parameters.AddWithValue("@tgl", tanggalTidur.ToString("yyyy-MM-dd"));
                     cmd.Parameters.AddWithValue("@tidur", jamTidurStr);
                     cmd.Parameters.AddWithValue("@bangun", jamBangunStr);
                     cmd.Parameters.AddWithValue("@durasi", durasi_menit);
 
                     cmd.ExecuteNonQuery();
+                    TampilkanDataTabel();
                 }
+
                 catch (Exception ex)
                 {
                     MessageBox.Show("data gagal disimpan ke database: " + ex.Message);
@@ -136,6 +138,7 @@ namespace SleepWise
             {
                 try
                 {
+                    conn.Open();
                     string query = "SELECT tanggal, jam_tidur, jam_bangun, durasi_menit FROM tr_log_tidur WHERE id_user = @id ORDER BY tanggal DESC";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@id", UserSession.UserId);
