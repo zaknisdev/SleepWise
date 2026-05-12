@@ -68,6 +68,7 @@ namespace SleepWise
                         UserSession.Username = txtUsername.Text;
                         UserSession.Role = dr["role"].ToString();
                         UserSession.TargetTidur = Convert.ToInt32(dr["target_tidur_jam"]);
+                        dr.Close();
 
                         MessageBox.Show("Login Berhasil! Wel Co Me, " + UserSession.Username);
 
@@ -75,7 +76,7 @@ namespace SleepWise
                         if (UserSession.Role == "Admin")
                         {
                             FormAdmin formAdmin = new FormAdmin();
-                            formAdmin.Show();
+                            formAdminMenu.Show();
                         }
                         else
                         {
