@@ -51,18 +51,17 @@ namespace SleepWise
             {
                 try
                 {
-                    conn.Open(); 
+                    conn.Open();
 
-                    
-                    string query = "SELECT id_user, role, target_tidur_jam FROM ms_user WHERE username = @user AND password = @pass";
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@user", txtUsername.Text);
-                    cmd.Parameters.AddWithValue("@pass", txtPassword.Text);
 
-                    
+                    MySqlCommand cmd = new MySqlCommand("SP_Login", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("p_username", txtUsername.Text.Trim());
+                    cmd.Parameters.AddWithValue("p_password", txtPassword.Text);
+
                     MySqlDataReader dr = cmd.ExecuteReader();
 
-                    
+
                     if (dr.Read())
                     {
                         UserSession.UserId = Convert.ToInt32(dr["id_user"]);
