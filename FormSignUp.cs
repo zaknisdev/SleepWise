@@ -51,31 +51,39 @@ namespace SleepWise
                     cmd.Parameters.AddWithValue("p_username", txtUsername.Text.Trim());
                     cmd.Parameters.AddWithValue("p_password", txtPassword.Text);
                     cmd.Parameters.AddWithValue("p_nama_lengkap", txtNamaLengkap.Text.Trim());
-                    cmd.Parameters.AddWithValue("p_target_tidur_jam", targetTidur);
+                    cmd.Parameters.AddWithValue("p_target_tidur_jam", 8);
 
 
-                    int hasil = cmd.ExecuteNonQuery();
-
-                    if (hasil > 0)
+                    MySqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.Read())
                     {
-                        MessageBox.Show("Akun berhasil dibuat! Silakan login dengan akun baru Anda.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        string status = dr["status"].ToString();
+                        dr.Close();
 
-                        FormLogin formLogin = new FormLogin();
-                        formLogin.Show();
-                        this.Hide();
-                    }
-                }
-                catch (MySqlException ex)
-                {
-                    
-                    if (ex.Number == 1062)
-                    {
-                        MessageBox.Show("Username sudah dipakai orang lain! Jangan nyontek orang lain beb!");
+                        if (status == "SUCCESS")
+                        {
+                            MessageBox.Show("Pendaftaran berhasil! Silakan login.", "Sukses",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            FormLogin formLogin = new FormLogin();
+                            formLogin.Show();
+                            this.Hide();
+                        }
+                        else if (status == "DUPLICATE")
+                        {
+                            MessageBox.Show("Username sudah digunakan! Coba username lain.", "Gagal",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Gagal nyambung ke database: " + ex.Message);
+                        dr.Close();
+                        MessageBox.Show("Pendaftaran gagal, coba lagi.");
                     }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error saat mendaftar:\n" + ex.Message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -87,5 +95,4 @@ namespace SleepWise
             this.Hide();
         }
     }
-    
 }
