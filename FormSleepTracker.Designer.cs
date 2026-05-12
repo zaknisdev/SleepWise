@@ -36,6 +36,8 @@
             this.dtpTanggal = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.dgvRiwayat = new System.Windows.Forms.DataGridView();
+            this.btnLogout = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRiwayat)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,7 +83,7 @@
             // btnSimpan
             // 
             this.btnSimpan.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.btnSimpan.Location = new System.Drawing.Point(477, 62);
+            this.btnSimpan.Location = new System.Drawing.Point(356, 147);
             this.btnSimpan.Name = "btnSimpan";
             this.btnSimpan.Size = new System.Drawing.Size(194, 75);
             this.btnSimpan.TabIndex = 5;
@@ -117,11 +119,35 @@
             this.dgvRiwayat.Size = new System.Drawing.Size(760, 196);
             this.dgvRiwayat.TabIndex = 8;
             // 
+            // btnLogout
+            // 
+            this.btnLogout.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnLogout.Location = new System.Drawing.Point(579, 147);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Size = new System.Drawing.Size(194, 75);
+            this.btnLogout.TabIndex = 9;
+            this.btnLogout.Text = "Logout";
+            this.btnLogout.UseVisualStyleBackColor = false;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button2.Location = new System.Drawing.Point(472, 66);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(194, 75);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "Ke saran mingguan";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.btnSaranMingguan_Click);
+            // 
             // FormSleepTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.dgvRiwayat);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dtpTanggal);
@@ -148,5 +174,7 @@
         private System.Windows.Forms.DateTimePicker dtpTanggal;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dgvRiwayat;
+        private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.Button button2;
     }
 }
