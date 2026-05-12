@@ -99,6 +99,51 @@ namespace SleepWise
             }
         }
 
+        private void btnLoginVulnerable_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtUsername.Text))
+            {
+                MessageBox.Show("Username tidak boleh kosong!"); return;
+            }
+
+            using (MySqlConnection conn = db.GetConnection())
+            {
+                try
+                {
+                    conn.Open();
+
+                    string queryVuln = "SELECT id_user, username, nama_lengkap, role, target_tidur_jam " +
+                                       "FROM ms_user WHERE username = '" + txtUsername.Text +
+                                       "' AND password = '" + txtPassword.Text + "'";
+
+                    MySqlCommand cmd = new MySqlCommand(queryVuln, conn);
+                    MySqlDataReader dr = cmd.ExecuteReader();
+
+                    if (dr.Read())
+                    {
+                        UserSession.UserId = Convert.ToInt32(dr["id_user"]);
+                        UserSession.Username = dr["username"].ToString();
+                        UserSession.Role = dr["role"].ToString();
+                        UserSession.TargetTidur = Convert.ToInt32(0);
+                        dr.Close();
+
+                        MessageBox.Show("[VULNERABLE] Login berhasil sebagai: " + UserSession.Username);
+                        // Untuk demo, cukup tampilkan pesan
+                    }
+                    else
+                    {
+                        dr.Close();
+                        MessageBox.Show("[VULNERABLE] Login gagal.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+
+
         private void btnSignup_Click(object sender, EventArgs e)
         {
             FormSignUp formDaftar = new FormSignUp();
