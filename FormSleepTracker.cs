@@ -53,18 +53,16 @@ namespace SleepWise
                 try
                 {
                     conn.Open();
-                    
-                    string query = "INSERT INTO tr_log_tidur (id_user, tanggal, jam_tidur, jam_bangun, durasi_menit) " +
-                                   "VALUES (@id, @tgl, @tidur, @bangun, @durasi)";
 
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@id", UserSession.UserId);
-                    cmd.Parameters.AddWithValue("@tgl", tanggalTidur.ToString("yyyy-MM-dd"));
-                    cmd.Parameters.AddWithValue("@tidur", jamTidurStr);
-                    cmd.Parameters.AddWithValue("@bangun", jamBangunStr);
-                    cmd.Parameters.AddWithValue("@durasi", durasi_menit);
-
+                    MySqlCommand cmd = new MySqlCommand("SP_InsertLogTidur", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("p_id_user", UserSession.UserId);
+                    cmd.Parameters.AddWithValue("p_tanggal", tanggalTidur.ToString("yyyy-MM-dd"));
+                    cmd.Parameters.AddWithValue("p_jam_tidur", jamTidurStr);
+                    cmd.Parameters.AddWithValue("p_jam_bangun", jamBangunStr);
+                    cmd.Parameters.AddWithValue("p_durasi_menit", durasi_menit);
                     cmd.ExecuteNonQuery();
+
                     TampilkanDataTabel();
                 }
 
@@ -77,30 +75,19 @@ namespace SleepWise
 
         private void TampilSaranHarian()
         {
-            int jam = durasi_menit / 60;
-            int menit = durasi_menit % 60;
-            string saran = "";
-
-            
             using (MySqlConnection conn = db.GetConnection())
             {
                 try
                 {
                     conn.Open();
-                    string query = "SELECT saran_harian FROM ms_kategori_tidur WHERE @durasi BETWEEN min_menit AND max_menit";
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@durasi", durasi_menit);
+                    MySqlCommand cmd = new MySqlCommand("SP_GetSaranHarian", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("p_durasi_menit", durasi_menit);
 
                     MySqlDataReader dr = cmd.ExecuteReader();
-
                     if (dr.Read())
-                    {
-                        saran = dr["saran_harian"].ToString(); 
-                    }
-                    else
-                    {
-                        saran = GenerateSaranManual(jam);
-                    }
+                        return dr["saran_harian"].ToString();
+                    dr.Close();
                 }
                 catch (Exception)
                 {
@@ -139,14 +126,25 @@ namespace SleepWise
                 try
                 {
                     conn.Open();
-                    string query = "SELECT tanggal, jam_tidur, jam_bangun, durasi_menit FROM tr_log_tidur WHERE id_user = @id ORDER BY tanggal DESC";
+                    string query =
+                        "SELECT tanggal       AS Tanggal, " +
+                        "       jam_tidur     AS `Jam Tidur`, " +
+                        "       jam_bangun    AS `Jam Bangun`, " +
+                        "       durasi_menit  AS `Durasi (Menit)`, " +
+                        "       durasi_jam    AS `Durasi (Jam)`, " +
+                        "       nama_kategori AS Kategori " +
+                        "FROM   vw_log_tidur_lengkap " +
+                        "WHERE  id_user = @id " +
+                        "ORDER  BY tanggal DESC";
+
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@id", UserSession.UserId);
 
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
-                    dgvRiwayat.DataSource = dt;
+
+                    bindingSource.DataSource = dt;
                 }
                 catch (Exception)
                 {
@@ -156,7 +154,26 @@ namespace SleepWise
         }
         private void FormSleepTracker_Load(object sender, EventArgs e)
         {
-            TampilkanDataTabel(); 
+            dgvRiwayat.DataSource = bindingSource;
+            bindingNavigator1.BindingSource = bindingSource;
+
+            TampilkanDataTabel();
+        }
+
+        private void btnSaranMingguan_Click(object sender, EventArgs e)
+        {
+            FormSaranMingguan f = new FormSaranMingguan();
+            f.Show();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            UserSession.ClearSession();
+            MessageBox.Show("Berhasil Logout!", "Info",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            FormLogin fl = new FormLogin();
+            fl.Show();
+            this.Hide();
         }
     }
 }
