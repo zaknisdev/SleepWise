@@ -30,15 +30,20 @@ namespace SleepWise
 
         }
 
-        private void btnSignup_Click(object sender, EventArgs e)
+        private void btnDaftar_Click(object sender, EventArgs e)
         {
-            if (txtUsername.Text == "" || txtPassword.Text == "" || txtNamaLengkap.Text == "")
+            if (string.IsNullOrWhiteSpace(txtUsername.Text) ||
+                string.IsNullOrWhiteSpace(txtPassword.Text) ||
+                string.IsNullOrWhiteSpace(txtNamaLengkap.Text))
             {
-                MessageBox.Show("Diisi semua ya ganteng!");
-                return; 
+                MessageBox.Show("Semua field wajib diisi!", "Peringatan",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
-            
+            int targetTidur = 8;
+
+
             using (MySqlConnection conn = db.GetConnection())
             {
                 try
@@ -51,7 +56,7 @@ namespace SleepWise
                     cmd.Parameters.AddWithValue("p_username", txtUsername.Text.Trim());
                     cmd.Parameters.AddWithValue("p_password", txtPassword.Text);
                     cmd.Parameters.AddWithValue("p_nama_lengkap", txtNamaLengkap.Text.Trim());
-                    cmd.Parameters.AddWithValue("p_target_tidur_jam", 8);
+                    cmd.Parameters.AddWithValue("p_target_tidur_jam", targetTidur);
 
 
                     MySqlDataReader dr = cmd.ExecuteReader();
