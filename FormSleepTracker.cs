@@ -14,7 +14,7 @@ namespace SleepWise
     public partial class FormSleepTracker : Form
     {
         koneksiDB db = new koneksiDB();
-
+        private BindingSource bindingSource = new BindingSource();
         int durasi_menit = 0;
         string jamTidurStr = "";
         string jamBangunStr = "";
