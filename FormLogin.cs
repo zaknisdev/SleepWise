@@ -38,10 +38,12 @@ namespace SleepWise
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            
-            if (txtUsername.Text == "" || txtPassword.Text == "")
+
+            if (string.IsNullOrWhiteSpace(txtUsername.Text) ||
+                string.IsNullOrWhiteSpace(txtPassword.Text))
             {
-                MessageBox.Show("Kok Kosong Ini!!");
+                MessageBox.Show("Username dan password tidak boleh kosong!", "Peringatan",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
