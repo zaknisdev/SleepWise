@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SleepWise
 {
@@ -75,10 +76,17 @@ namespace SleepWise
 
         private void TampilSaranHarian()
         {
+            int jam = durasi_menit / 60;
+            int menit = durasi_menit % 60;
+            string saran = "";
+
             using (MySqlConnection conn = db.GetConnection())
             {
+               
+
                 try
                 {
+
                     conn.Open();
                     MySqlCommand cmd = new MySqlCommand("SP_GetSaranHarian", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -86,16 +94,20 @@ namespace SleepWise
 
                     MySqlDataReader dr = cmd.ExecuteReader();
                     if (dr.Read())
-                        return dr["saran_harian"].ToString();
+                        saran = dr["saran_harian"].ToString();
                     dr.Close();
                 }
-                catch (Exception)
+                catch
                 {
                     saran = GenerateSaranManual(jam);
                 }
             }
 
-            MessageBox.Show($"Data Berhasil Disimpan!\n\nTanggal: {tanggalTidur.ToString("dd/MM/yyyy")}\nDurasi tidur kamu: {jam} jam {menit} menit.\n\nSaran untukmu:\n{saran}");
+            MessageBox.Show(
+               $"Data Berhasil Disimpan!\n\n" +
+               $"Tanggal: {tanggalTidur:dd/MM/yyyy}\n" +
+               $"Durasi tidur kamu: {jam} jam {menit} menit.\n\n" +
+               $"Saran untukmu:\n{saran}");
         }
 
         

@@ -95,17 +95,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormAdmin.cs">
+    <Compile Include="FormAdminMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormAdmin.Designer.cs">
-      <DependentUpon>FormAdmin.cs</DependentUpon>
+    <Compile Include="FormAdminMenu.Designer.cs">
+      <DependentUpon>FormAdminMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAdminPengguna.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAdminPengguna.Designer.cs">
+      <DependentUpon>FormAdminPengguna.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAdminSaran.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAdminSaran.Designer.cs">
+      <DependentUpon>FormAdminSaran.cs</DependentUpon>
     </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormLogin.Designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSaranMingguan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSaranMingguan.Designer.cs">
+      <DependentUpon>FormSaranMingguan.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSignUp.cs">
       <SubType>Form</SubType>
@@ -123,11 +141,20 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserSession.cs" />
-    <EmbeddedResource Include="FormAdmin.resx">
-      <DependentUpon>FormAdmin.cs</DependentUpon>
+    <EmbeddedResource Include="FormAdminMenu.resx">
+      <DependentUpon>FormAdminMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAdminPengguna.resx">
+      <DependentUpon>FormAdminPengguna.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAdminSaran.resx">
+      <DependentUpon>FormAdminSaran.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSaranMingguan.resx">
+      <DependentUpon>FormSaranMingguan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSignUp.resx">
       <DependentUpon>FormSignUp.cs</DependentUpon>
