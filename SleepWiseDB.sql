@@ -49,3 +49,7 @@ INSERT INTO ms_kategori_tidur (nama_kategori, min_menit, max_menit, saran_harian
 ('Kurang', 0, 360, 'kurang lama tidurnya. Nanti kamu sakit sayang!!.'),
 ('Cukup', 361, 540, 'Tidurmu cukup. Tubuhmu akan terasa segar bugar beb!'),
 ('Berlebih', 541, 1440, 'Kelamaan lo tidurnya, blemes ntar.');
+
+ALTER TABLE tr_log_tidur 
+MODIFY COLUMN jam_tidur TIME NOT NULL,
+MODIFY COLUMN jam_bangun TIME NOT NULL;
