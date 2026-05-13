@@ -75,7 +75,7 @@ namespace SleepWise
                         
                         if (UserSession.Role == "Admin")
                         {
-                            FormAdmin formAdmin = new FormAdmin();
+                            FormAdminMenu formAdmin = new FormAdminMenu();
                             formAdminMenu.Show();
                         }
                         else
